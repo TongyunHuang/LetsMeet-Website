@@ -1,7 +1,9 @@
 # LetsMeet Backend
 
 ## Table of Contents
-
+1. [Description](#description)
+2. [Task](#task)
+3. [Schema Design](#user-schemea)
 
 ## Description
 
@@ -38,3 +40,52 @@
 | select   | specify the set of fields to include or exclude in each document  (1 - include; 0 - exclude) |
 | limit    | specify the number of results to return                                                      |
 | count    | if true, return the count of documents that match (instead of the documents)                 |
+
+**Query Example - Dec 3**
+
+Local api for now, host this later
+
+| Query                                                                                | Description                                             |
+|-----------------------------------------------------------------------------------------|---------------------------------------------------------|
+| `http://localhost:4000/api/events`                          | Returns full list of  events                       |
+| `http://localhost:4000/api/users`                          | Returns full list of users                       |
+| `http://localhost:4000/api/posts`                          | Returns full list of  posts                       |
+| `http://localhost:4000/api/users?where={"_id": "55099652e5993a350458b7b7"}`         | Returns a list with a single user with the specified ID ('_id' will be different) |
+| `http://localhost:4000/api/events?where={"completed":1 }`                          | Returns a list of completed events                     |
+| `http://localhost:4000/api/posts?where={"user_id": {"$in": ["59f930d6b1596b0cb3e82953","5a1b6d7bd72ba9106fe9239c"]}}` | Returns a set of posts by certain users                                 |
+| `http://localhost:4000/api/users?sort={"name": 1}`                                  | Returns a list of users sorted by name                  |
+| `http://localhost:4000/api/users?select={"_id": 0}`                                  | Returns a list of users without the _id field           |
+| `http://localhost:4000/api/posts?limit=20`                                   | Returns posts number from 61 to 80                            |
+
+## User Schemea:
+
+Here is the Users Schema:
+
+1. "name" - String     `Required`
+2. "email" - String
+3. "password" - String    `Required`
+4. "joinedEvent" - [String] - The id fields of the events that the user joined
+5. "attendedEvent" - [String] - The id fields of the events that the user actually showed up
+
+
+Here is the Events Schema:
+
+1. "name" - String `Required`
+2. "time" - Date `Required`
+3. "creator" - String `Required`
+4. "joinUser" - [String] - The id fields of the users join this event
+5. "showupUser" - [String] - The id fields of the users actually showed up
+
+
+
+Here is the Tasks Schems:
+1. "content" - String  `Required`
+2. "userId" - String - id of user who post the post `Required`
+3. "likeUser" - [String] - id of users who liked this post
+
+## Getting Started
+1. Clone the repository
+2. Install dependencies:
+`npm install`
+3. Start the dev server:
+`npm start`
