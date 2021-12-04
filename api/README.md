@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Description](#description)
 2. [Task](#task)
-3. [Schema Design](#user-schemea)
+3. [Schema Design](#schema-design)
 4. [Getting Start](#getting-started)
 
 ## Description
@@ -58,15 +58,14 @@ Local api for now, host this later
 | `http://localhost:4000/api/users?select={"_id": 0}`                                  | Returns a list of users without the _id field           |
 | `http://localhost:4000/api/posts?limit=20`                                   | Returns posts number from 61 to 80                            |
 
-## User Schemea:
+## Schema Design:
 
 Here is the Users Schema:
 
 1. "name" - String     `Required`
-2. "email" - String
-3. "password" - String    `Required`
-4. "joinedEvent" - [String] - The id fields of the events that the user joined
-5. "attendedEvent" - [String] - The id fields of the events that the user actually showed up
+2. "password" - String    `Required`
+3. "joinedEvent" - [String] - The id fields of the events that the user joined
+4. "attendedEvent" - [String] - The id fields of the events that the user actually showed up
 
 
 Here is the Events Schema:
@@ -74,15 +73,17 @@ Here is the Events Schema:
 1. "name" - String `Required`
 2. "time" - Date `Required`
 3. "creator" - String `Required`
-4. "joinUser" - [String] - The id fields of the users join this event
-5. "showupUser" - [String] - The id fields of the users actually showed up
+4. "lat" - Double `Required`
+5. "lng" - Double `Required`
+6. "joinUser" - [String] - The id fields of the users join this event
+7. "showupUser" - [String] - The id fields of the users actually showed up
 
 
 
-Here is the Tasks Schems:
+Here is the Tasks Schema:
 1. "content" - String  `Required`
 2. "userId" - String - id of user who post the post `Required`
-3. "likeUser" - [String] - id of users who liked this post
+3. "likeCount" - Interger - number of likes this post get
 
 ## Getting Started
 1. Clone the repository
