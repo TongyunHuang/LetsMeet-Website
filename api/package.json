@@ -4,7 +4,7 @@
   "description": "Project for Group TriCorn for CS498rk UIUC Fa21",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon --exec node server.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,9 @@
   },
   "homepage": "https://gitlab.com/TongyunHuang/fa21-cs498rk-project#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "body-parser": "^1.17.2",
+    "mongoose": "^5.4.18",
+    "nodemon": "^1.11.0"
   }
 }
