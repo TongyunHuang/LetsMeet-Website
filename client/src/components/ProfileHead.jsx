@@ -1,4 +1,4 @@
-import { Avatar } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import React from "react";
 
 export default function ProfileHead() {
@@ -10,10 +10,13 @@ export default function ProfileHead() {
         position: "relative",
       }}
     >
-      <div
-        style={{
+      <Box
+        sx={{
           backgroundColor: "#9FDDDD",
-          height: "300px",
+          height: {
+            xs: "200px",
+            sm: "300px",
+          },
           position: "relative",
         }}
       >
@@ -22,7 +25,6 @@ export default function ProfileHead() {
             display: "flex",
             width: "100%",
             position: "absolute",
-            // backgroundColor: "green",
             bottom: 0,
           }}
         >
@@ -31,26 +33,32 @@ export default function ProfileHead() {
               width: "100%",
             }}
           ></div>
-          <div
-            style={{
+          <Box
+            sx={{
               width: "100%",
               textAlign: "left",
-              fontSize: 60,
+              fontSize: {
+                xs: 38,
+                sm: 60,
+              },
               fontWeight: 500,
               color: "white",
               textShadow: "0px 0px 6px rgba(0, 0, 0, 0.4)",
             }}
           >
             Hao Ren
-          </div>
+          </Box>
         </div>
-      </div>
-      <div
-        style={{
+      </Box>
+      <Box
+        sx={{
           backgroundColor: "white",
-          height: "100px",
+          height: {
+            xs: "70px",
+            sm: "100px",
+          },
         }}
-      ></div>
+      />
       <Avatar
         src="avatar-placeholder.png"
         sx={{
@@ -59,6 +67,24 @@ export default function ProfileHead() {
           position: "absolute",
           bottom: "25px",
           left: "25px",
+          display: {
+            xs: "none",
+            sm: "inline",
+          },
+        }}
+      />
+      <Avatar
+        src="avatar-placeholder.png"
+        sx={{
+          width: 100,
+          height: 100,
+          position: "absolute",
+          bottom: "25px",
+          left: "25px",
+          display: {
+            xs: "inline",
+            sm: "none",
+          },
         }}
       />
     </div>
