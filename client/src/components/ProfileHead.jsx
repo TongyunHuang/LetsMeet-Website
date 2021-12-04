@@ -1,7 +1,8 @@
-import { Avatar, Box } from "@mui/material";
+import { Avatar, Box, Button, Typography } from "@mui/material";
 import React from "react";
 
 export default function ProfileHead() {
+  const name = "Hao Ren";
   return (
     <div
       style={{
@@ -46,19 +47,41 @@ export default function ProfileHead() {
               textShadow: "0px 0px 6px rgba(0, 0, 0, 0.4)",
             }}
           >
-            Hao Ren
+            {name}
           </Box>
         </div>
       </Box>
       <Box
         sx={{
           backgroundColor: "white",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
           height: {
             xs: "70px",
             sm: "100px",
           },
         }}
-      />
+      >
+        <Typography
+          sx={{
+            marginLeft: {
+              xs: "150px",
+              sm: "200px",
+            },
+          }}
+        >
+          Let's meet!
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{
+            marginRight: "20px",
+          }}
+        >
+          Add
+        </Button>
+      </Box>
       <Avatar
         src="avatar-placeholder.png"
         sx={{
