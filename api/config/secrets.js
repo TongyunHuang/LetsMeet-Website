@@ -3,6 +3,6 @@
  */
 module.exports = {
     token : "secret-starter-mern",
-    mongo_connection : "mongodb+srv://admin:eIswtL7BSTsovN2L@cluster0.vf9da.mongodb.net/cs498rk-mp3?retryWrites=true&w=majority",
+    mongo_connection : "mongodb+srv://admin:eIswtL7BSTsovN2L@cluster0.vf9da.mongodb.net/cs498rk-project?retryWrites=true&w=majority",
     
 };

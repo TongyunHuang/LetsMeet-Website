@@ -14,8 +14,8 @@ const event_schema = new mongoose.Schema({
     name      :{type:String, required:true},
     time      :{type:Date  , required:true},
     creator   :{type:String, required:true},
-    lat       :{type:Double, required:true},
-    lng       :{type:Double, required:true},
+    lat       :{type:Number, required:true},
+    lng       :{type:Number, required:true},
     joinUser  :{type:[String], default:[]},
     showupUser:{type:[String], default:[]}
 },{ versionKey:false })

@@ -9,12 +9,17 @@ const { array_contain } = require('../utils/utils')
  */
 router.post("/", async (req, res) =>{
     // check required fields were set
+    console.log(req.body)
+    try{
     if (req.body.name && req.body.password){
         // make sure joinedEvent contains attendedEvent
         let attendedEvent_arr = array_contain(req.body.joinedEvent,req.body.attendedEvent )
         let newUser = {
             name:req.body.name,
             password:req.body.password,
+            friends: req.body.friends || [],
+            avatar: req.body.avatar || `'https://www.tinygraphs.com/spaceinvaders/${req.body.name}'`,
+            bio: req.body.bio || `There is nothing here yet`,
             joinedEvent: req.body.joinedEvent || [],
             attendedEvent: attendedEvent_arr
         }
@@ -29,6 +34,7 @@ router.post("/", async (req, res) =>{
             }
         })
     }
+    }catch(e){console.log(e)}
 }) // end of user-POST
 
 /**
@@ -53,7 +59,19 @@ router.get("/", async (req, res) =>{
     });
 }) // end of user-GET
 
-
+/**
+ * user:id - DELETE
+ */
+router.delete("/:id", async (req, res) => {
+    User.findOneAndDelete(req.params.id, function (err, deleteUser){
+        if (err) {
+            res.status(404).send({message: 'User Not Found to delete', data: {} });
+        } else {
+            // TODO update corresponding event, delete created post
+            res.status(200).send({message: 'Delete task OK', data: deleteTask});
+        }
+    })
+})
 
 
 

@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
 const post_schema = new mongoose.Schema({
     content: { type:String, required:true },
     userId: {  type:String, required:true },
-    likeCount:{ type:Interger, default:0}
+    likeCount:{ type:Number, default:0}
 },{ versionKey:false })
 
 // Export the Mongoose Model

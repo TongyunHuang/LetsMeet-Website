@@ -7,13 +7,18 @@
  */
 function array_contain(master, sub){
     let result
-    if (sub.length === 0) { result = []}
-    else {
+    if (sub) {
         result = sub.every(function(val){
             return master.indexOf(val) >= 0
         });
     }
+    else {
+        result = []
+    }
     return result
 }
+
+
+
 
 module.exports = { array_contain }
