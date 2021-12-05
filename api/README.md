@@ -98,3 +98,4 @@ Here is the Posts Schema:
 
 ## Resource
 1. Get mock data from: https://mockturtle.net/
+2. Avatar generate api from : https://www.tinygraphs.com/
