@@ -16,19 +16,19 @@
 
 | Endpoints | Actions | Intended Outcome                                      |
 |---------- |---------|-------------------------------------------------------|
-| users     | GET     | Respond with a List of users                          |
+| user      | GET     | Respond with a List of users                          |
 |           | POST    | Create a new user. Respond with details of new user   |
-| users/:id | GET     | Respond with details of specified user or 404 error   |
+| user/:id  | GET     | Respond with details of specified user or 404 error   |
 |           | PUT     | Replace entire user with supplied user or 404 error   |
 |           | DELETE  | Delete specified user or 404 error                    |
-| events    | GET     | Respond with a List of events                         |
+| event     | GET     | Respond with a List of events                         |
 |           | POST    | Create a new event. Respond with details of new event |
-| events/:id| GET     | Respond with details of specified event or 404 error  |
+| event/:id | GET     | Respond with details of specified event or 404 error  |
 |           | PUT     | Replace entire event with supplied event or 404 error |
 |           | DELETE  | Delete specified event or 404 error                   |
-| posts     | GET     | Respond with a List of posts                          |
+| post      | GET     | Respond with a List of posts                          |
 |           | POST    | Create a new post. Respond with details of new post   |
-| posts/:id | GET     | Respond with details of specified post or 404 error   |
+| post/:id  | GET     | Respond with details of specified post or 404 error   |
 |           | PUT     | Replace entire post with supplied post or 404 error   |
 |           | DELETE  | Delete specified post or 404 error                    |
 
@@ -48,15 +48,15 @@ Local api for now, host this later
 
 | Query                                                                                | Description                                             |
 |-----------------------------------------------------------------------------------------|---------------------------------------------------------|
-| `http://localhost:4000/api/events`                          | Returns full list of  events                       |
-| `http://localhost:4000/api/users`                          | Returns full list of users                       |
-| `http://localhost:4000/api/posts`                          | Returns full list of  posts                       |
-| `http://localhost:4000/api/users?where={"_id": "55099652e5993a350458b7b7"}`         | Returns a list with a single user with the specified ID ('_id' will be different) |
-| `http://localhost:4000/api/events?where={"completed":1 }`                          | Returns a list of completed events                     |
-| `http://localhost:4000/api/posts?where={"user_id": {"$in": ["59f930d6b1596b0cb3e82953","5a1b6d7bd72ba9106fe9239c"]}}` | Returns a set of posts by certain users                                 |
-| `http://localhost:4000/api/users?sort={"name": 1}`                                  | Returns a list of users sorted by name                  |
-| `http://localhost:4000/api/users?select={"_id": 0}`                                  | Returns a list of users without the _id field           |
-| `http://localhost:4000/api/posts?limit=20`                                   | Returns posts number from 61 to 80                            |
+| `http://localhost:4000/api/event`                          | Returns full list of  events                       |
+| `http://localhost:4000/api/user`                          | Returns full list of users                       |
+| `http://localhost:4000/api/post`                          | Returns full list of  posts                       |
+| `http://localhost:4000/api/user?where={"_id": "55099652e5993a350458b7b7"}`         | Returns a list with a single user with the specified ID ('_id' will be different) |
+| `http://localhost:4000/api/event?where={"completed":1 }`                          | Returns a list of completed events                     |
+| `http://localhost:4000/api/post?where={"user_id": {"$in": ["59f930d6b1596b0cb3e82953","5a1b6d7bd72ba9106fe9239c"]}}` | Returns a set of posts by certain users                                 |
+| `http://localhost:4000/api/user?sort={"name": 1}`                                  | Returns a list of users sorted by name                  |
+| `http://localhost:4000/api/user?select={"_id": 0}`                                  | Returns a list of users without the _id field           |
+| `http://localhost:4000/api/post?limit=20`                                   | Returns posts number from 61 to 80                            |
 
 ## Schema Design:
 
