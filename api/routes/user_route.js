@@ -60,10 +60,24 @@ router.get("/", async (req, res) =>{
 }) // end of user-GET
 
 /**
+ * user/:id-GET: user get by id Respond with details of specified user or 404 error
+ */
+ router.get('/:id', async (req, res) => {
+    User.findById(req.params.id, function (err, res_user) {
+        if (err) {
+            res.status(404).send({message: 'User Not Found', data: {} });
+        } else {
+            res.status(200).send({message: 'OK', data: res_user});
+        }
+    });
+});
+
+
+/**
  * user:id - DELETE
  */
 router.delete("/:id", async (req, res) => {
-    User.findOneAndDelete(req.params.id, function (err, deleteUser){
+    User.findOneAndDelete(req.params.id, function (err, deleteTask){
         if (err) {
             res.status(404).send({message: 'User Not Found to delete', data: {} });
         } else {

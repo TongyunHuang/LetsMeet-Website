@@ -19,7 +19,7 @@ def usage():
 
 def getUsers(conn):
     # Retrieve the list of users
-    conn.request("GET","""/api/users?filter={"_id":1}""")
+    conn.request("GET","""/api/user?filter={"_id":1}""")
     response = conn.getresponse()
     data = response.read()
     d = json.loads(data)
@@ -100,6 +100,8 @@ def fillEvent(conn, headers, userID):
     event_count = len(event_obj)
     user_count = len(userID)
     event_each_user = event_count // user_count
+    if event_each_user <= 0: event_each_user = 1
+    print(event_count,user_count )
     # init User data
     for i in range(len(event_obj)):
         user_idx = i // event_each_user
@@ -153,14 +155,14 @@ def main(argv):
 
     # HTTP Headers
     headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-
-    userID = fillUser(conn, headers)
-    fillPost(conn, headers, userID)
+    userID = getUsers(conn)
+    # userID = fillUser(conn, headers)
+    # fillPost(conn, headers, userID)
     fillEvent(conn, headers, userID)
 
     # Exit gracefully
     conn.close()
-    print(str(userCount)+" users added at "+baseurl+":"+str(port))
+    print(str(17)+" users added at "+baseurl+":"+str(port))
 
 
 if __name__ == "__main__":
