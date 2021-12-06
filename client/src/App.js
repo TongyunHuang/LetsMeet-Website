@@ -5,6 +5,8 @@ import ResponsiveAppBar from "./components/NavBar";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
+import Friends from "./pages/Friends";
+import AddPost from "./pages/AddPost";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/friends" element={<Friends />} />
+        <Route path="/addpost" element={<AddPost />} />
       </Routes>
     </div>
   );
