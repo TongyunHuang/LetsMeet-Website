@@ -1,12 +1,18 @@
-const express = require('express')
-const router = express.Router()
-const mongoose = require('mongoose')
-const secrets = require('./config/secrets')
-const bodyParser = require('body-parser')
-
-const app = express()
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose');
+const secrets = require('./config/secrets');
+const bodyParser = require('body-parser');
 const port = process.env.Port || 4000
+const session = require('express-session')
+const passport = require('./config/passport')
+const MongoStore = require('connect-mongo')(session)
 
+/**
+ * -------------- GENERAL SETUP---------------
+ */
+// Create our Express application
+const app = express();
 // Connect to a MongoDB
 mongoose.connect(secrets.mongo_connection, {
     useNewUrlParser: true,
@@ -23,15 +29,46 @@ var allowCrossDomain = function (req, res, next) {
 app.use(allowCrossDomain);
 
 // Use the body-parser package in our application
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true}))
+app.use(bodyParser.json())
 
-app.get('/',(req,res) =>{
-    res.send('Hello World!')
+/**
+ * ---------------- SESSION SETUP ---------------
+ */
+const sessionStore = new MongoStore({
+    mongooseConnection: mongoose.connection,
+    collection: 'sessions'
 })
 
+// request.session
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    store: sessionStore,
+}))
+
+/**
+ * --------------- PASSPORT AUTHENTICATION ---------------
+ */
+
+// initialize passport middleware
+app.use(passport.initialize())
+app.use(passport.session())
+// will run before every api routing, for debug purpose
+app.use((req, res, next) => {
+    // console.log(req.session)
+    // console.log(req.user)
+    next()
+})
+
+
+/**
+ * --------------- ROUTE AND SERVER ---------------
+ */
+ app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
 // Use routes as a module
 require('./routes')(app, router);
 

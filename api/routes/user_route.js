@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const User = require('../models/user_model')
-const { array_contain } = require('../utils/utils')
+const { array_contain } = require('../lib/utils')
 
 /**
  * user-POST: Create a new user. Respond with details of new user
