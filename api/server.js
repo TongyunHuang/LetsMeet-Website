@@ -29,8 +29,9 @@ var allowCrossDomain = function (req, res, next) {
 app.use(allowCrossDomain);
 
 // Use the body-parser package in our application
-app.use(bodyParser.urlencoded({ extended: true}))
-app.use(bodyParser.json())
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 
 /**
  * ---------------- SESSION SETUP ---------------
@@ -55,6 +56,7 @@ app.use(session({
 // initialize passport middleware
 app.use(passport.initialize())
 app.use(passport.session())
+require('./config/passport')
 // will run before every api routing, for debug purpose
 app.use((req, res, next) => {
     // console.log(req.session)

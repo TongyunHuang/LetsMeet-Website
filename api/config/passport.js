@@ -1,7 +1,9 @@
+'use strict';
 const express = require('express')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('../models/user_model')
+const mongoose = require('mongoose')
 
 
 const customFields = {
@@ -16,9 +18,9 @@ const customFields = {
  * @param {String} password password field in DB
  * @param {Callback} done   callback function
  */
-const VerifyCallback = (username, password, done) => {
-    consolue.log('verifycallback')
-    User.findOne({ name:username })
+const verifyCallback = (username, password, done) => {
+    //console.log('verifycallback call !!!!!!!!')
+    User.findOne({where:{ name:username }})
         .then(user =>{
             // create new user if not found
             if (!user){
@@ -43,15 +45,16 @@ const VerifyCallback = (username, password, done) => {
                 } else {
                     return done(null, false)// no err, wrong pw
                 }
-
             }
-        }).catch((err) =>{
-            done(err)
         })
+        .catch((err) => {   
+            done(err);
+        });
 }
 
-const strategy = new LocalStrategy(customFields, VerifyCallback)
-passport.use(strategy)
+const strategy = new LocalStrategy(customFields, verifyCallback)
+
+passport.use('local',strategy)
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
