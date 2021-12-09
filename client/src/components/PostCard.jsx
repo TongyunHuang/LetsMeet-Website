@@ -16,8 +16,13 @@ export default function PostCard(props) {
     <Card sx={{ maxWidth: 345, textAlign: "left", borderRadius: "0px" }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+          <Avatar
+            sx={{
+              bgcolor: "#" + Math.floor(Math.random() * 16777215).toString(16),
+            }}
+            aria-label="recipe"
+          >
+            {name.substring(0, 1)}
           </Avatar>
         }
         action={
