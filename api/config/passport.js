@@ -19,7 +19,7 @@ const customFields = {
  * @param {Callback} done   callback function
  */
 const verifyCallback = (username, password, done) => {
-    //console.log('verifycallback call !!!!!!!!')
+    // console.log('verifycallback call !!!!!!!!')
     User.findOne({where:{ name:username }})
         .then(user =>{
             // create new user if not found

@@ -12,9 +12,7 @@ const user_schema = new mongoose.Schema({
     password:     { type:String, required: true },
     bio:          { type:String, default:'There is nothing here yet' },
     avatar:       { type:String, default:'https://www.tinygraphs.com/spaceinvaders/helloworld'},
-    friends:      { type:[String], default:[] },
-    joinedEvent:  { type:[String], default:[] },
-    attendedEvent:{ type:[String], default:[] }
+    friends:      { type:[String], default:[] }
 },{ versionKey:false })
 
 // Export the Mongoose Model

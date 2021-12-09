@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const User = require('../models/user_model')
 const { array_contain } = require('../lib/utils')
 
-/**
+/** ############################################################################
  * user-POST: Create a new user. Respond with details of new user
  */
 router.post("/", async (req, res) =>{
@@ -37,7 +37,7 @@ router.post("/", async (req, res) =>{
     }catch(e){console.log(e)}
 }) // end of user-POST
 
-/**
+/** ############################################################################
  * user-GET: Respond with a List of users
  */
 router.get("/", async (req, res) =>{
@@ -59,7 +59,7 @@ router.get("/", async (req, res) =>{
     });
 }) // end of user-GET
 
-/**
+/** ############################################################################
  * user/:id-GET: user get by id Respond with details of specified user or 404 error
  */
  router.get('/:id', async (req, res) => {
@@ -72,8 +72,28 @@ router.get("/", async (req, res) =>{
     });
 });
 
+/** ############################################################################
+ * user/:id-PUT: User change by id Respond with details of specified User or 404 error
+ */
+ router.put('/:id', async (req, res) => {
+    const model = `User`
+    if (req.body._id) {
+        delete req.body._id;
+    }
+    if (req.body.name && req.body.password){
+        User.findByIdAndUpdate(req.params.id, req.body, {new: true}, async function(err, newRes){
+            if (err) {
+                res.status(404).send({message: `${model} Not Found to update`, data: {} })
+            } else {
+                res.status(200).send({ message: `UPDATE ${model} successful `, data: newRes})
+            }
+        })
+    } else {
+        res.status(500).send({message:`Initialization of name, password in ${model} are required`, data:{}})
+    }
+});
 
-/**
+/** ############################################################################
  * user:id - DELETE
  */
 router.delete("/:id", async (req, res) => {

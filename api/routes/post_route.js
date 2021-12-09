@@ -3,7 +3,7 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const Post = require('../models/post_model')
 
-/**
+/** ############################################################################
  * post-POST: Create a new post. Respond with details of new post
 */
 router.post("/", async (req, res) =>{
@@ -30,7 +30,7 @@ router.post("/", async (req, res) =>{
 
 
 
-/**
+/** ############################################################################
  * post-GET: Respond with a List of posts
  */
  router.get("/", async (req, res) =>{
@@ -55,7 +55,7 @@ router.post("/", async (req, res) =>{
 
 
 
-/**
+/** ############################################################################
  * post/:id-GET: post get by id Respond with details of specified post or 404 error
  */
  router.get('/:id', async (req, res) => {
@@ -68,8 +68,28 @@ router.post("/", async (req, res) =>{
     });
 });
 
+/** ############################################################################
+ * post/:id-PUT: Post change by id Respond with details of specified Post or 404 error
+ */
+ router.put('/:id', async (req, res) => {
+    const model = `Post`
+    if (req.body._id) {
+        delete req.body._id;
+    }
+    if (req.body.content && req.body.userId){
+        Post.findByIdAndUpdate(req.params.id, req.body, {new: true}, async function(err, newRes){
+            if (err) {
+                res.status(404).send({message: `${model} Not Found to update`, data: {} })
+            } else {
+                res.status(200).send({ message: `UPDATE ${model} successful `, data: newRes})
+            }
+        })
+    } else {
+        res.status(500).send({message:`Initialization of content and userId in ${model} are required`, data:{}})
+    }
+});
 
-/**
+/** #############################################################################
  * post:id - DELETE
  */
 router.delete("/:id", async (req, res) => {

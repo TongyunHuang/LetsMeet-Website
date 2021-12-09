@@ -26,8 +26,8 @@ def getUsers(conn):
 
     # Array of user IDs
     users = [str(d['data'][x]['_id']) for x in range(len(d['data']))]
-
-    return users
+    userObj = d['data']
+    return users, userObj
 
 
 def fillUser(conn, headers):
@@ -38,6 +38,7 @@ def fillUser(conn, headers):
     @return - userID - list of user id
     """
     userID = []
+    userObj = []
 
     with open('userData.json','r') as user_file:
         user_data = user_file.read()
@@ -56,7 +57,8 @@ def fillUser(conn, headers):
         
         d = json.loads(data)
         userID.append(str(d['data']['_id']))
-    return userID
+        userObj.append(d['data'])
+    return userID, userObj
 
 def fillPost(conn, headers, userID):
     """
@@ -93,6 +95,7 @@ def fillEvent(conn, headers, userID):
     @param - headers
     @params - userID - list of user id
     """
+    eventID = []
     with open('eventData.json','r') as event_file:
         event_data = event_file.read()
     event_obj = json.loads(event_data)
@@ -120,8 +123,42 @@ def fillEvent(conn, headers, userID):
         data = response.read()
         
         d = json.loads(data)
+        eventID.append(str(d['data']['_id']))
+    return eventID
 
+def fillAttend(conn, headers, userID, eventID):
+    """
+    fill attend db
+    """
+    attendCount =  min(len(userID), len(eventID))
+    for i in range(attendCount):
+        # fill up 
+        params = urllib.parse.urlencode({'userId': eventID[i], 
+                                         'eventId':userID[i]
+                                        })
 
+        # Post the event
+        conn.request("POST", "/api/attend", params, headers)
+        response = conn.getresponse()
+        data = response.read()
+        
+        d = json.loads(data)
+
+def addFriend(conn, headers, userID, userObj):
+    userCount = len(userID)
+    for i in range(userCount):
+        currId = userID[i]
+        currFriend = [id for id in userID if id != currId]
+        # Pick a random first name and last name
+        params = urllib.parse.urlencode({'name': userObj[i]['name'], 'password':userObj[i]['password'],
+        'friends': currFriend })
+
+        # POST the user
+        conn.request("PUT", "/api/user/"+currId, params, headers)
+        response = conn.getresponse()
+        data = response.read()
+        
+        d = json.loads(data)
 
 
 
@@ -155,10 +192,12 @@ def main(argv):
 
     # HTTP Headers
     headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-    userID = getUsers(conn)
-    # userID = fillUser(conn, headers)
+    userID, userObj = getUsers(conn)
+    # userID, userObj = fillUser(conn, headers)
     # fillPost(conn, headers, userID)
-    fillEvent(conn, headers, userID)
+    # eventID = fillEvent(conn, headers, userID)
+    # fillAttend(conn, headers, userID, eventID)
+    addFriend(conn, headers, userID, userObj)
 
     # Exit gracefully
     conn.close()

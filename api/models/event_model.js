@@ -15,9 +15,7 @@ const event_schema = new mongoose.Schema({
     time      :{type:Date  , required:true},
     creator   :{type:String, required:true},
     lat       :{type:Number, required:true},
-    lng       :{type:Number, required:true},
-    joinUser  :{type:[String], default:[]},
-    showupUser:{type:[String], default:[]}
+    lng       :{type:Number, required:true}
 },{ versionKey:false })
 
 // Export the Mongoose Model

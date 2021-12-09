@@ -67,9 +67,7 @@ Here is the Users Schema:
 2. "password" - String    `Required`
 3. "friends" - [String] - The id fields of friends
 4. "bio" - String - self intro
-5. "joinedEvent" - [String] - The id fields of the events that the user joined
-6. "attendedEvent" - [String] - The id fields of the events that the user actually showed up
-7. "avatar" - String - url of avatar using tinygraphs api
+5. "avatar" - String - url of avatar using tinygraphs api
 
 
 Here is the Events Schema:
@@ -79,15 +77,19 @@ Here is the Events Schema:
 3. "creator" - String `Required`
 4. "lat" - Double `Required`
 5. "lng" - Double `Required`
-6. "joinUser" - [String] - The id fields of the users join this event
-7. "showupUser" - [String] - The id fields of the users actually showed up
-
 
 
 Here is the Posts Schema:
 1. "content" - String  `Required`
 2. "userId" - String - id of user who post the post `Required`
 3. "likeCount" - Interger - number of likes this post get
+
+
+Here is the Attend Schema:
+1. "userId" - String `Require`
+2. "eventId" - String `Require`
+3. "status" - String default: 'join', option: 'missed', 'attended'
+
 
 ## Getting Started
 1. Clone the repository
