@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Friends from "./pages/Friends";
 import AddPost from "./pages/AddPost";
+import LoginAuth from "./pages/LoginAuth";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/auth" element={<LoginAuth />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/addpost" element={<AddPost />} />
       </Routes>

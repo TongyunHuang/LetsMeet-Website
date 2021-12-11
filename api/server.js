@@ -7,6 +7,8 @@ const port = process.env.Port || 4000
 const session = require('express-session')
 const passport = require('./config/passport')
 const MongoStore = require('connect-mongo')(session)
+const cors = require("cors")
+const cookieParser = require("cookie-parser");
 
 /**
  * -------------- GENERAL SETUP---------------
@@ -32,6 +34,13 @@ app.use(allowCrossDomain);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+// allow access from localhost 3000
+app.use(
+    cors({
+      origin: "http://localhost:3000", // <-- location of the react app were connecting to
+      credentials: true,
+    })
+  );
 
 /**
  * ---------------- SESSION SETUP ---------------
@@ -52,6 +61,7 @@ app.use(session({
 /**
  * --------------- PASSPORT AUTHENTICATION ---------------
  */
+ app.use(cookieParser("secret"));
 
 // initialize passport middleware
 app.use(passport.initialize())
@@ -60,7 +70,7 @@ require('./config/passport')
 // will run before every api routing, for debug purpose
 app.use((req, res, next) => {
     // console.log(req.session)
-    // console.log(req.user)
+    console.log("api get called")
     next()
 })
 

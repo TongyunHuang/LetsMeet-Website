@@ -41,6 +41,7 @@ router.post("/", async (req, res) =>{
  * user-GET: Respond with a List of users
  */
 router.get("/", async (req, res) =>{
+    console.log('Here is the user get all api')
     let operation = 'users'
     const queries = req.query;
     // where - filter results based on JSON query

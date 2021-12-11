@@ -32,7 +32,12 @@
 | post/:id  | GET     | Respond with details of specified post or 404 error   |
 |           | PUT     | Replace entire post with supplied post or 404 error   |
 |           | DELETE  | Delete specified post or 404 error                    |
-
+| attend    | GET     | Respond with a List of posts                          |
+|           | POST    | Create a new post. Respond with details of new post   |
+| attend/:id| GET*     | Respond with details of specified post or 404 error   |
+|           | PUT  *   | Replace entire post with supplied post or 404 error   |
+|           | DELETE  | Delete specified post or 404 error                    |
+| auth      | POST    | Create a new post. Respond with details of new post   |
 **Query Parameter**
 
 | Parameter | Description                                                                                 |
@@ -45,7 +50,23 @@
 
 **Query Example - Dec 3**
 
-Local api for now, host this later
+Some potentially useful api sample usage for each page. Local api for now, host this later
+
+For login page `To be test`
+
+| Query                      | Description                                             |
+|----------------------------|---------------------------------------------------------|
+| `http://localhost:4000/api/auth`     | Returns full list of  events                       |
+
+For discover page `To be test`
+
+| Query                      | Description                                             |
+|----------------------------|---------------------------------------------------------|
+| `POST http://localhost:4000/api/`     | Returns full list of  events                       |
+
+For profile page `To be test`
+
+For post page `To be test`
 
 | Query                                                                                | Description                                             |
 |-----------------------------------------------------------------------------------------|---------------------------------------------------------|
@@ -101,3 +122,4 @@ Here is the Attend Schema:
 ## Resource
 1. Get mock data from: https://mockturtle.net/
 2. Avatar generate api from : https://www.tinygraphs.com/
+3. Passport.js middleware ref: https://medium.com/swlh/set-up-an-express-js-app-with-passport-js-and-mongodb-for-password-authentication-6ea05d95335c#9305
