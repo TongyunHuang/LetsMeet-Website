@@ -7,14 +7,13 @@ import DateTimePicker from "@mui/lab/DateTimePicker";
 
 export default function EventForm() {
   const [name, setName] = useState("");
-  const [number, setNumber] = useState(null);
-  const [date, setDate] = useState(null);
-  const [description, setDescription] = useState("");
   const [startDateTime, setstartDateTime] = React.useState(null);
   const [endDateTime, setendDateTime] = React.useState(null);
+  const [number, setNumber] = useState(null);
+  const [description, setDescription] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
-    const event = { name, number, description };
+    const event = { name, startDateTime, endDateTime, number, description };
     console.log(event);
   };
 
@@ -22,52 +21,76 @@ export default function EventForm() {
     <div className="eventForm">
       <form
         onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column" }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
       >
-        <TextField
-          label="Event Name"
-          type="text"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <LocalizationProvider
-          dateAdapter={AdapterDateFns}
-          style={{ display: "flex", flexDirection: "row" }}
-        >
-          <DateTimePicker
-            renderInput={(props) => <TextField {...props} />}
-            label="From"
-            value={startDateTime}
-            onChange={(newValue) => {
-              setstartDateTime(newValue);
-            }}
+        <div>
+          <TextField
+            label="Event Name"
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            style={{ width: "49%", marginRight: "1%", marginBottom: "2%" }}
           />
-          <DateTimePicker
-            renderInput={(props) => <TextField {...props} />}
-            label="To"
-            value={endDateTime}
-            onChange={(newValue) => {
-              setendDateTime(newValue);
-            }}
+          <TextField
+            label="Expected Number of Attendees"
+            type="number"
+            required
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+            style={{ width: "49%", marginLeft: "1%", marginBottom: "2%" }}
           />
-        </LocalizationProvider>
+        </div>
+        <div>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DateTimePicker
+              renderInput={(props) => (
+                <TextField
+                  style={{
+                    width: "49%",
+                    marginRight: "1%",
+                    marginBottom: "2%",
+                  }}
+                  {...props}
+                />
+              )}
+              label="From"
+              value={startDateTime}
+              onChange={(newValue) => {
+                setstartDateTime(newValue);
+              }}
+            />
+            <DateTimePicker
+              renderInput={(props) => (
+                <TextField
+                  style={{ width: "49%", marginLeft: "1%", marginBottom: "2%" }}
+                  {...props}
+                />
+              )}
+              label="To"
+              value={endDateTime}
+              onChange={(newValue) => {
+                setendDateTime(newValue);
+              }}
+            />
+          </LocalizationProvider>
+        </div>
+
         <TextField
-          label="Expected Number of Attendees"
-          type="number"
-          required
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
-        />
-        <TextField
+          style={{ marginBottom: "2%", height: "20vh" }}
+          multiline={true}
+          rows={10}
           label="Event Description"
           required
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         ></TextField>
+        <Button variant="contained">Confirm</Button>
       </form>
-
-      <Button variant="contained">Confirm</Button>
     </div>
   );
 }
