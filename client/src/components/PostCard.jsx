@@ -13,7 +13,16 @@ export default function PostCard(props) {
   const { name, likeCount, date, content } = props.data;
 
   return (
-    <Card sx={{ maxWidth: 345, textAlign: "left", borderRadius: "0px" }}>
+    <Card
+      sx={{
+        textAlign: "left",
+        borderRadius: "0px",
+        width: "50vw",
+        margin: "50px",
+        marginBottom: "25px",
+        marginLeft: "100px",
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar

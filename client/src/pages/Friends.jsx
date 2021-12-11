@@ -29,10 +29,20 @@ export default function Friends() {
   return (
     <div>
       <ProfileHead />
-      <FriendsNavList />
-      <PostCard data={samplePostDate} />
-      <PostCard data={samplePostDate2} />
-      <PostCard data={samplePostDate3} />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <FriendsNavList />
+        <div>
+          <PostCard data={samplePostDate} />
+          <PostCard data={samplePostDate2} />
+          <PostCard data={samplePostDate3} />
+        </div>
+      </div>
     </div>
   );
 }

@@ -24,7 +24,9 @@ export default function NavList() {
         sx={{
           width: "200px",
           backgroundColor: "white",
-          marginTop: "20px",
+          marginTop: "50px",
+          marginLeft: "50px",
+          marginRight: "50px",
           boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
           padding: "0px",
         }}
