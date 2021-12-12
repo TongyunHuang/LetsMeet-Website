@@ -55,6 +55,7 @@ router.post("/", async (req, res) => {
 /** ############################################################################
  * user-GET: Respond with a List of users
  */
+
 router.get("/", async (req, res) => {
   console.log("Here is the user get all api");
   let operation = "users";
@@ -77,6 +78,7 @@ router.get("/", async (req, res) => {
   });
 }); // end of user-GET
 
+
 /** ############################################################################
  * user/:id-GET: user get by id Respond with details of specified user or 404 error
  */
@@ -93,48 +95,37 @@ router.get("/:id", async (req, res) => {
 /** ############################################################################
  * user/:id-PUT: User change by id Respond with details of specified User or 404 error
  */
-router.put("/:id", async (req, res) => {
-  const model = `User`;
-  if (req.body._id) {
-    delete req.body._id;
-  }
-  if (req.body.name && req.body.password) {
-    User.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true },
-      async function (err, newRes) {
-        if (err) {
-          res
-            .status(404)
-            .send({ message: `${model} Not Found to update`, data: {} });
-        } else {
-          res
-            .status(200)
-            .send({ message: `UPDATE ${model} successful `, data: newRes });
-        }
-      }
-    );
-  } else {
-    res.status(500).send({
-      message: `Initialization of name, password in ${model} are required`,
-      data: {},
-    });
-  }
+ router.put('/:id', async (req, res) => {
+    const model = `User`
+    if (req.body._id) {
+        delete req.body._id;
+    }
+    if (req.body.name && req.body.password){
+        User.findByIdAndUpdate(req.params.id, req.body, {new: true}, async function(err, newRes){
+            if (err) {
+                res.status(404).send({message: `${model} Not Found to update`, data: {} })
+            } else {
+                res.status(200).send({ message: `UPDATE ${model} successful `, data: newRes})
+            }
+        })
+    } else {
+        res.status(400).send({message:`Initialization of name, password in ${model} are required`, data:{}})
+    }
 });
 
 /** ############################################################################
  * user:id - DELETE
  */
 router.delete("/:id", async (req, res) => {
-  User.findOneAndDelete(req.params.id, function (err, deleteTask) {
-    if (err) {
-      res.status(404).send({ message: "User Not Found to delete", data: {} });
-    } else {
-      // TODO update corresponding event, delete created post
-      res.status(200).send({ message: "Delete task OK", data: deleteTask });
-    }
-  });
-});
+    User.findOneAndDelete(req.params.id, function (err, deleteTask){
+        if (err) {
+            res.status(404).send({message: 'User Not Found to delete', data: {} });
+        } else {
+            res.status(200).send({message: 'Delete task OK', data: deleteTask});
+        }
+    })
+})
+
 
 module.exports = router;
+

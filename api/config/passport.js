@@ -3,6 +3,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const bcrypt = require("bcryptjs");
 
+
 const User = require("../models/user_model");
 
 const customFields = {
@@ -18,6 +19,7 @@ const customFields = {
  * @param {Callback} done   callback function
  */
 const verifyCallback = (username, password, done) => {
+
   // console.log('verifycallback call !!!!!!!!')
   User.findOne({ name: username })
     .then((user) => {
@@ -40,6 +42,7 @@ const verifyCallback = (username, password, done) => {
       done(err);
     });
 };
+
 
 const strategy = new LocalStrategy(customFields, verifyCallback);
 
