@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 const post_schema = new mongoose.Schema({
     content: { type:String, required:true },
     userId: {  type:String, required:true },
+    date: {type:Date, default: Date.now},
     likeCount:{ type:Number, default:0}
 },{ versionKey:false })
 

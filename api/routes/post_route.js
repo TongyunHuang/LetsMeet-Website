@@ -12,6 +12,7 @@ router.post("/", async (req, res) =>{
             let newPost = {
                 content:  req.body.content,
                 userId:   req.body.userId,
+                date:   req.body.date || Date.now,
                 likeCount:req.body.likeCount || 0
             }
             // Try to create new Post, throw error on fail
@@ -19,10 +20,11 @@ router.post("/", async (req, res) =>{
                 if (err){
                     res.status(500).send({message:`Create new post fail`, data:{}})
                 } else {
-                    // TODO: check if user id actually exist
                     res.status(201).send({message: 'create new post OK', data:resPost});
                 }
             })
+        } else {
+            res.status(400).send({message:`Initialization of content and userId in Post are required`})
         }
     } catch(e){console.log(e)}
 
@@ -85,7 +87,7 @@ router.post("/", async (req, res) =>{
             }
         })
     } else {
-        res.status(500).send({message:`Initialization of content and userId in ${model} are required`, data:{}})
+        res.status(400).send({message:`Initialization of content and userId in ${model} are required`})
     }
 });
 
