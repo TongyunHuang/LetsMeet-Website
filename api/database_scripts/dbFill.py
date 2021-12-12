@@ -70,7 +70,7 @@ def fillPost(conn, headers, userID):
     with open('postData.json','r') as post_file:
         post_data = post_file.read()
     post_obj = json.loads(post_data)
-
+    print('fillPose')
     post_count = len(post_obj)
     user_count = len(userID)
     post_each_user = post_count // user_count
@@ -80,7 +80,7 @@ def fillPost(conn, headers, userID):
         if user_idx >= user_count: user_idx = user_count - 1
         # fill up with data in the json file
         params = urllib.parse.urlencode({'content': post_obj[i]['content'], 'userId':userID[user_idx]})
-
+        print(params)
         # POST the post
         conn.request("POST", "/api/post", params, headers)
         response = conn.getresponse()
@@ -194,10 +194,10 @@ def main(argv):
     headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
     userID, userObj = getUsers(conn)
     # userID, userObj = fillUser(conn, headers)
-    # fillPost(conn, headers, userID)
+    fillPost(conn, headers, userID)
     # eventID = fillEvent(conn, headers, userID)
     # fillAttend(conn, headers, userID, eventID)
-    addFriend(conn, headers, userID, userObj)
+    #addFriend(conn, headers, userID, userObj)
 
     # Exit gracefully
     conn.close()

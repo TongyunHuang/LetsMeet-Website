@@ -11,37 +11,43 @@ router.post("/", async (req, res) =>{
     // check required fields were set
     console.log(req.body)
     try{
-    if (req.body.name && req.body.password){
-        // make sure joinedEvent contains attendedEvent
-        let attendedEvent_arr = array_contain(req.body.joinedEvent,req.body.attendedEvent )
-        let newUser = {
-            name:req.body.name,
-            password:req.body.password,
-            friends: req.body.friends || [],
-            avatar: req.body.avatar || `'https://www.tinygraphs.com/spaceinvaders/${req.body.name}'`,
-            bio: req.body.bio || `There is nothing here yet`,
-            joinedEvent: req.body.joinedEvent || [],
-            attendedEvent: attendedEvent_arr
-        }
-
-        // Try to create new User, throw error on fail
-        User.create(newUser, async function(err, res_user){
-            if (err){
-                res.status(500).send({message:`Create new user fail`, data:{}})
-            } else {
-                // TODO: Update events in joinedEvent and attended, delete if event not found
-                res.status(201).send({message: 'create new user OK', data:res_user});
+        if (req.body.name && req.body.password){
+            // check for duplicate userusername
+            const ifDup = await User.findOne({ username: req.body.username });
+            if (ifDup) {
+                res.status(400).send({message:`Bad request. Username duplication`, data:{}})
+                return;
             }
-        })
+            // create new user / register
+            let newUser = {
+                name:req.body.name,
+                password:req.body.password,
+                friends: req.body.friends || [],
+                avatar: req.body.avatar || `'https://www.tinygraphs.com/spaceinvaders/${req.body.name}'`,
+                bio: req.body.bio || `There is nothing here yet`
+            }
+
+            // Try to create new User, throw error on fail
+            User.create(newUser, async function(err, res_user){
+                if (err){
+                    res.status(500).send({message:`Create new user fail`, data:{}})
+                } else {
+                    res.status(201).send({message: 'create new user OK', data:res_user});
+                }
+            })
+        } else {
+            res.status(400).json({ message: `Initialization of name, password in User are required` });
+        }
+    }catch(e){
+        console.log(e)
     }
-    }catch(e){console.log(e)}
 }) // end of user-POST
 
 /** ############################################################################
  * user-GET: Respond with a List of users
  */
 router.get("/", async (req, res) =>{
-    console.log('Here is the user get all api')
+    
     let operation = 'users'
     const queries = req.query;
     // where - filter results based on JSON query
@@ -90,7 +96,7 @@ router.get("/", async (req, res) =>{
             }
         })
     } else {
-        res.status(500).send({message:`Initialization of name, password in ${model} are required`, data:{}})
+        res.status(400).send({message:`Initialization of name, password in ${model} are required`, data:{}})
     }
 });
 
@@ -102,19 +108,11 @@ router.delete("/:id", async (req, res) => {
         if (err) {
             res.status(404).send({message: 'User Not Found to delete', data: {} });
         } else {
-            // TODO update corresponding event, delete created post
             res.status(200).send({message: 'Delete task OK', data: deleteTask});
         }
     })
 })
 
 
-
-
-
 module.exports = router;
-
-
-
-
 

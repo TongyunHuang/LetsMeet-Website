@@ -3,7 +3,8 @@ const express = require('express')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('../models/user_model')
-const mongoose = require('mongoose')
+const bcrypt = require("bcryptjs");
+
 
 
 const customFields = {
@@ -19,37 +20,32 @@ const customFields = {
  * @param {Callback} done   callback function
  */
 const verifyCallback = (username, password, done) => {
-    // console.log('verifycallback call !!!!!!!!')
-    User.findOne({where:{ name:username }})
-        .then(user =>{
-            // create new user if not found
-            if (!user){
-                let newUser = {
-                    name:username, password:password,
-                    avatar: `'https://www.tinygraphs.com/spaceinvaders/${username}'`
-                }
-                // Try to create new User, throw error on fail
-                User.create(newUser, async function(err, res_user){
-                    if (err){
-                        return done(err)
-                    } else { 
-                        return done(null, res_user)
-                    }
-                })
-            } 
-            // verify pw 
-            else{
-                const isValid = (user.password === password)
-                if (isValid){
-                    return done(null, user) // no err, correct pw
+    console.log(`verifycallback call !!!!!!!!${username}`)
+    User.findOne({name:username} ,async function(err,user){
+        if (err){
+            return done(err)
+        }
+        if (!user) {
+            return done(null, false);
+        }
+        // verify pw
+        else {
+            console.log(password)
+            console.log(user.password)
+            if (password === user.password ) {
+                if (err) throw err;
+                console.log(result)
+                if (result === true) {
+                    console.log('here')
+                    return done(null, user);
                 } else {
-                    return done(null, false)// no err, wrong pw
+                    console.log('here2')
+                    return done(null, false);
                 }
-            }
-        })
-        .catch((err) => {   
-            done(err);
-        });
+            })
+        }
+    })
+
 }
 
 const strategy = new LocalStrategy(customFields, verifyCallback)
