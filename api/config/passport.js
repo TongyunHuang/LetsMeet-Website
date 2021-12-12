@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'use strict';
 const express = require('express')
 const passport = require('passport')
@@ -5,12 +6,19 @@ const LocalStrategy = require('passport-local')
 const User = require('../models/user_model')
 const bcrypt = require("bcryptjs");
 
+=======
+"use strict";
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const bcrypt = require("bcryptjs");
+>>>>>>> main
 
+const User = require("../models/user_model");
 
 const customFields = {
-    usernameField: 'name',
-    passwordField: 'password'
-}
+  usernameField: "name",
+  passwordField: "password",
+};
 
 /**
  * If cannot find the user, new user is created with the password
@@ -20,6 +28,7 @@ const customFields = {
  * @param {Callback} done   callback function
  */
 const verifyCallback = (username, password, done) => {
+<<<<<<< HEAD
     console.log(`verifycallback call !!!!!!!!${username}`)
     User.findOne({name:username} ,async function(err,user){
         console.log(user)
@@ -43,22 +52,45 @@ const verifyCallback = (username, password, done) => {
     })
 
 }
+=======
+  // console.log('verifycallback call !!!!!!!!')
+  User.findOne({ name: username })
+    .then((user) => {
+      if (!user) {
+        return done(null, false);
+      }
+      // verify pw
+      else {
+        bcrypt.compare(password, user.password, (err, result) => {
+          if (err) throw err;
+          if (result === true) {
+            return done(null, user);
+          } else {
+            return done(null, false);
+          }
+        });
+      }
+    })
+    .catch((err) => {
+      done(err);
+    });
+};
+>>>>>>> main
 
-const strategy = new LocalStrategy(customFields, verifyCallback)
+const strategy = new LocalStrategy(customFields, verifyCallback);
 
-passport.use('local',strategy)
+passport.use("local", strategy);
 
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+  done(null, user.id);
 });
 
 passport.deserializeUser((userId, done) => {
-    User.findById(userId)
-        .then((user) => {
-            done(null, user);
-        })
-        .catch(err => done(err))
+  User.findById(userId)
+    .then((user) => {
+      done(null, user);
+    })
+    .catch((err) => done(err));
 });
 
-module.exports = passport
-
+module.exports = passport;
