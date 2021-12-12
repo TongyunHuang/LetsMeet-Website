@@ -22,6 +22,7 @@ const customFields = {
 const verifyCallback = (username, password, done) => {
     console.log(`verifycallback call !!!!!!!!${username}`)
     User.findOne({name:username} ,async function(err,user){
+        console.log(user)
         if (err){
             return done(err)
         }
@@ -29,21 +30,16 @@ const verifyCallback = (username, password, done) => {
             return done(null, false);
         }
         // verify pw
-        else {
-            console.log(password)
-            console.log(user.password)
-            if (password === user.password ) {
-                if (err) throw err;
-                console.log(result)
-                if (result === true) {
-                    console.log('here')
-                    return done(null, user);
-                } else {
-                    console.log('here2')
-                    return done(null, false);
-                }
-            })
+        
+            
+        if (password === user.password ) {
+            console.log('here')
+            return done(null, user);
+        } else {
+                console.log('here2')
+                return done(null, false);
         }
+        
     })
 
 }

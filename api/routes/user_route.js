@@ -13,8 +13,9 @@ router.post("/", async (req, res) =>{
     try{
         if (req.body.name && req.body.password){
             // check for duplicate userusername
-            const ifDup = await User.findOne({ username: req.body.username });
+            const ifDup = await User.findOne({ name: req.body.username });
             if (ifDup) {
+                console.log(ifDup)
                 res.status(400).send({message:`Bad request. Username duplication`, data:{}})
                 return;
             }

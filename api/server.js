@@ -45,23 +45,24 @@ app.use(
 /**
  * ---------------- SESSION SETUP ---------------
  */
-// const sessionStore = new MongoStore({
-//     mongooseConnection: mongoose.connection,
-//     collection: 'sessions'
-// })
+const sessionStore = new MongoStore({
+    mongooseConnection: mongoose.connection,
+    collection: 'sessions'
+})
 
-// // request.session
-// app.use(session({
-//     secret: 'secret',
-//     resave: false,
-//     saveUninitialized: true,
-//     store: sessionStore,
-// }))
+// request.session
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    store: sessionStore,
+}))
 
 /**
  * --------------- PASSPORT AUTHENTICATION ---------------
  */
- app.use(cookieParser("secret"));
+
+ //app.use(cookieParser("secret"));
 
 // initialize passport middleware
 app.use(passport.initialize())
