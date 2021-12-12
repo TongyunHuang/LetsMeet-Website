@@ -1,57 +1,62 @@
 import React, { useState } from "react";
+import Axios from "axios";
 import { Navigate } from "react-router-dom";
 import "./Login.css";
 import TextField from "@mui/material/TextField";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+
 export default function Login() {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const initInput = {
+    username: "",
+    password: "",
+  };
+  const [values, setValues] = useState(initInput);
+  const [data, setData] = useState(null);
 
-  // User Login info
-  const userDatabase = [
-    {
-      username: "user1",
-      password: "pass1",
-    },
-    {
-      username: "user2",
-      password: "pass2",
-    },
-    {
-      username: "admin",
-      password: "admin",
-    },
-  ];
-  const theme = createTheme();
+  // axios
+  const login = () => {
+    Axios({
+      method: "POST",
+      data: {
+        name: values.username,
+        password: values.password,
+      },
+      withCredentials: true,
+      url: "http://localhost:4000/api/auth",
+    }).then((res) => console.log(res));
+  };
+  const getUser = () => {
+    Axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:4000/api/auth",
+    }).then((res) => {
+      setData(res.data);
+      console.log(res.data);
+    });
+  };
+
   const errors = {
     uname: "Invalid Username",
     pass: "Invalid Password",
   };
 
-  const handleSubmit = (event) => {
-    //Prevent page reload
-    event.preventDefault();
+  const handleClick = (e) => {
+    getUser();
+  };
 
-    var { uname, pass } = document.forms[0];
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
 
-    // Find user login info
-    const userData = userDatabase.find((user) => user.username === uname.value);
-
-    // Compare user info
-    if (userData) {
-      if (userData.password !== pass.value) {
-        // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        setIsSubmitted(true);
-      }
-    } else {
-      // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login();
   };
 
   // error message
@@ -62,7 +67,6 @@ export default function Login() {
 
   // login form
   const renderForm = (
-    // <ThemeProvider theme={theme}>
     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
       <div className="input-container">
         <TextField
@@ -70,8 +74,10 @@ export default function Login() {
           required
           fullWidth
           label="Name"
-          name="uname"
+          name="username"
+          value={values.username}
           autoFocus
+          onChange={handleChange}
         />
         {renderErrorMessage("uname")}
 
@@ -79,9 +85,11 @@ export default function Login() {
           margin="normal"
           required
           fullWidth
-          name="pass"
+          name="password"
+          value={values.password}
           label="Password"
           type="password"
+          onChange={handleChange}
         />
         {renderErrorMessage("pass")}
       </div>
@@ -89,7 +97,6 @@ export default function Login() {
         Sign In
       </Button>
     </Box>
-    // </ThemeProvider>
   );
   const successfulLogin = <Navigate to="/home" />;
 
@@ -98,6 +105,7 @@ export default function Login() {
       <div className="login-form">
         <div className="title">Sign In</div>
         {isSubmitted ? successfulLogin : renderForm}
+        <Button onClick={handleClick}>Show</Button>
       </div>
     </div>
   );
