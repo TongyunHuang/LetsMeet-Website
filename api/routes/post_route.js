@@ -8,11 +8,12 @@ const Post = require('../models/post_model')
 */
 router.post("/", async (req, res) =>{
     try{
+        
         if (req.body.content && req.body.userId){
+            console.log('post api post')
             let newPost = {
                 content:  req.body.content,
                 userId:   req.body.userId,
-                date:   req.body.date || Date.now,
                 likeCount:req.body.likeCount || 0
             }
             // Try to create new Post, throw error on fail

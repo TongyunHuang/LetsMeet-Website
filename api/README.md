@@ -104,7 +104,7 @@ Here is the Posts Schema:
 1. "content" - String  `Required`
 2. "userId" - String - id of user who post the post `Required`
 3. "likeCount" - Interger - number of likes this post get
-
+4. "date" - Date - set to now by default
 
 Here is the Attend Schema:
 1. "userId" - String `Require`
