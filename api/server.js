@@ -19,7 +19,6 @@ mongoose.connect(secrets.mongo_connection, {
   useUnifiedTopology: true,
 });
 
-<<<<<<< HEAD
 // // Allow CORS so that backend and frontend could be put on different servers
 // var allowCrossDomain = function (req, res, next) {
 //     res.header("Access-Control-Allow-Origin", "*");
@@ -28,7 +27,7 @@ mongoose.connect(secrets.mongo_connection, {
 //     next();
 // };
 // app.use(allowCrossDomain);
-=======
+
 // Allow CORS so that backend and frontend could be put on different servers
 var allowCrossDomain = function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -40,7 +39,8 @@ var allowCrossDomain = function (req, res, next) {
   next();
 };
 app.use(allowCrossDomain);
->>>>>>> main
+
+
 
 // Use the body-parser package in our application
 app.use(express.json());
@@ -70,12 +70,10 @@ app.use(
 /**
  * --------------- PASSPORT AUTHENTICATION ---------------
  */
-<<<<<<< HEAD
 
- //app.use(cookieParser("secret"));
-=======
 app.use(cookieParser("secret"));
->>>>>>> main
+
+
 
 // initialize passport middleware
 app.use(passport.initialize());
