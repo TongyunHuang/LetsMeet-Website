@@ -2,9 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  /* flex-direction: column;
   gap: 20px;
-  height: 100vh;
+  height: 100vh; */
   /* background-color: #f2f1fd; */
   /* background-image: url(https://source.unsplash.com/random/1920x1080/?wallpaper,landscape); */
   /* background-repeat: no-repeat; */
@@ -14,6 +14,7 @@
   background-color: white;
   padding: 2rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-top: 200px;
 }
 
 .error {
