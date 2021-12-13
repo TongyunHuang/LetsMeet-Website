@@ -11,12 +11,13 @@ export default function Login() {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
+
   const initInput = {
     username: "",
     password: "",
   };
   const [values, setValues] = useState(initInput);
-  const [data, setData] = useState(null);
 
   // axios
   const login = () => {
@@ -28,26 +29,32 @@ export default function Login() {
       },
       withCredentials: true,
       url: "http://localhost:4000/api/auth",
-    }).then((res) => console.log(res));
-  };
-  const getUser = () => {
-    Axios({
-      method: "GET",
-      withCredentials: true,
-      url: "http://localhost:4000/api/auth",
-    }).then((res) => {
-      setData(res.data);
-      console.log(res.data);
+    })
+    .then((res) => {
+      console.log(`User ${res.data.data.name} logged in!`)
+      localStorage.setItem('username', res.data.data.name)
+      localStorage.setItem('userId', res.data.data._id)
     });
   };
+
+  const register = () => {
+    Axios({
+      method: "POST",
+      data: {
+        name: values.username,
+        password: values.password,
+      },
+      withCredentials: true,
+      url: "http://localhost:4000/api/user",
+    })
+    .then((res) => {
+      console.log(`User ${res.data.data.name} created!`)
+    });
+  }
 
   const errors = {
     uname: "Invalid Username",
     pass: "Invalid Password",
-  };
-
-  const handleClick = (e) => {
-    getUser();
   };
 
   const handleChange = (e) => {
@@ -56,7 +63,11 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login();
+    if (isRegister) {
+      register();
+    } else {
+      login();
+    }
   };
 
   // error message
@@ -94,7 +105,7 @@ export default function Login() {
         {renderErrorMessage("pass")}
       </div>
       <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-        Sign In
+        {isRegister ? 'Register' : 'Sign in'}
       </Button>
     </Box>
   );
@@ -103,9 +114,11 @@ export default function Login() {
   return (
     <div className="log-in-page">
       <div className="login-form">
-        <div className="title">Sign In</div>
+        <div className="title">{isRegister ? 'Register' : 'Sign in'}</div>
         {isSubmitted ? successfulLogin : renderForm}
-        <Button onClick={handleClick}>Show</Button>
+        <Button onClick={() => {
+          setIsRegister(!isRegister)
+        }}>{isRegister ? 'Sign in' : 'Register'}</Button>
       </div>
     </div>
   );
