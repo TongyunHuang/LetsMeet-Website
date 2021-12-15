@@ -21,53 +21,28 @@ const customFields = {
  * @param {Callback} done   callback function
  */
 const verifyCallback = (username, password, done) => {
-
-    console.log(`verifycallback call !!!!!!!!${username}`)
-    User.findOne({name:username} ,async function(err,user){
-        console.log(user)
-        if (err){
-            return done(err)
-        }
-        if (!user) {
-            return done(null, false);
-        }
-        // verify pw
-        
-            
-        if (password === user.password ) {
-            console.log('here')
-            return done(null, user);
+  User.findOne({ name: username })
+  .then((user) => {
+    if (!user) {
+      return done(null, false);
+    }
+    // verify pw
+    else {
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (err) throw err;
+        if (result === true) {
+          return done(null, user);
         } else {
-                console.log('here2')
-                return done(null, false);
+          return done(null, false);
         }
-        
-    })
-
+      });
+    }
+  })
+  .catch((err) => {
+    done(err);
+  });
 }
 
-  // console.log('verifycallback call !!!!!!!!')
-  User.findOne({ name: username })
-    .then((user) => {
-      if (!user) {
-        return done(null, false);
-      }
-      // verify pw
-      else {
-        bcrypt.compare(password, user.password, (err, result) => {
-          if (err) throw err;
-          if (result === true) {
-            return done(null, user);
-          } else {
-            return done(null, false);
-          }
-        });
-      }
-    })
-    .catch((err) => {
-      done(err);
-    });
-};
 
 
 
