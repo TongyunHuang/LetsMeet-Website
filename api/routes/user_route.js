@@ -29,9 +29,6 @@ router.post("/", async (req, res) => {
         name: req.body.name,
         password: hashedPassword,
         friends: req.body.friends || [],
-        avatar:
-          req.body.avatar ||
-          `'https://www.tinygraphs.com/spaceinvaders/${req.body.name}'`,
         bio: req.body.bio || `There is nothing here yet`,
       };
 
@@ -52,9 +49,30 @@ router.post("/", async (req, res) => {
   }
 }); // end of user-POST
 
+
 /** ############################################################################
  * user-GET: Respond with a List of users
  */
+
+router.get("/", async (req, res) =>{
+    
+    let operation = 'users'
+    const queries = req.query;
+    // where - filter results based on JSON query
+    const conditions = queries.where ? JSON.parse(queries.where) : {};
+    // select - set of fields to include or exclude (1 - include; 0 - exclude)
+    const select = queries.select ? JSON.parse(queries.select) : {};
+    const options = {};
+    options.limit = parseInt(queries.limit) || 0;
+    options.sort = queries.sort ? JSON.parse(queries.sort) : {};
+    User.find(conditions, select, options, function (err, actual_res) {
+        if (err) {
+            res.status(500).send({ message: `Get many ${operation} fail`, data: {} })
+        } else {
+            res.status(200).send({ message: `Get many ${operation} OK`, data: actual_res });
+        }
+    });
+}) // end of user-GET
 
 router.get("/", async (req, res) => {
   console.log("Here is the user get all api");
@@ -79,10 +97,12 @@ router.get("/", async (req, res) => {
 }); // end of user-GET
 
 
+
 /** ############################################################################
  * user/:id-GET: user get by id Respond with details of specified user or 404 error
  */
 router.get("/:id", async (req, res) => {
+  console.log(`get user by id request with id ${req.params.id}`)
   User.findById(req.params.id, function (err, res_user) {
     if (err) {
       res.status(404).send({ message: "User Not Found", data: {} });
@@ -95,6 +115,7 @@ router.get("/:id", async (req, res) => {
 /** ############################################################################
  * user/:id-PUT: User change by id Respond with details of specified User or 404 error
  */
+
  router.put('/:id', async (req, res) => {
     const model = `User`
     if (req.body._id) {
@@ -111,12 +132,14 @@ router.get("/:id", async (req, res) => {
     } else {
         res.status(400).send({message:`Initialization of name, password in ${model} are required`, data:{}})
     }
+
 });
 
 /** ############################################################################
  * user:id - DELETE
  */
 router.delete("/:id", async (req, res) => {
+
     User.findOneAndDelete(req.params.id, function (err, deleteTask){
         if (err) {
             res.status(404).send({message: 'User Not Found to delete', data: {} });

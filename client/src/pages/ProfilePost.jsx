@@ -9,16 +9,14 @@ import { Navigate, useParams } from "react-router-dom";
 import '../style/profile.css'
 
 
-export default function Profile() {
+export default function ProfilePost() {
   const apiHeader = 'http://localhost:4000/api/'
 
   // Declare and initialize all state value here
   const [userId, setUserId] = useState();
   const [user, setUser] = useState([]);
   const [username, setUserName] = useState();
-  const [numPost, setNumPost] = useState();
-  const [numEvent, setNumEvent] = useState();
-  const [numFriend, setNumFriend] = useState();
+  const [post, setPost] = useState();
   const { handle } = useParams()
 
   // load data when render
@@ -33,9 +31,7 @@ export default function Profile() {
       setUserName(loggedInUserName)
     }
     getUser(loggedInUser)
-    getPost(loggedInUser)
-    getEvent(loggedInUser)
-
+    getPost(loggedInUser,loggedInUserName)
   }, []);
 
    // api call get user object
@@ -47,7 +43,6 @@ export default function Profile() {
     })
     .then((res) => {
       setUser(res.data.data)
-      setNumFriend(res.data.data.friends.length)
     })
     .catch(function (error) {
       console.log(error)
@@ -55,31 +50,56 @@ export default function Profile() {
   }
 
   // api call get post object
-  const getPost = (id) =>{
+  const getPost = (id,name) =>{
     Axios({
       method: "GET",
       withCredentials:true,
       url: `${apiHeader}post?where={"userId":"${id}"}`
     })
     .then((res) => {
-      const len = res.data.data.length
-      setNumPost(len)
+      let dataLoad = []
+      for (let i = 0; i < res.data.data.length; i++){
+        let curDict = {
+          index:i,
+          name: name,
+          id:res.data.data[i]['_id'],
+          likeCount:res.data.data[i]['likeCount'], 
+          date: res.data.data[i]['date'], 
+          content: res.data.data[i]['content']}
+        dataLoad.push(curDict)
+      }
+      setPost(dataLoad)
     })
     .catch(function (error) {
       console.log(error)
     })
   }
 
-   // api call get event object
-   const getEvent = (id) =>{
+  // Increment like count each time called
+  const addLike = (data) => {
+    console.log(`addLike callled for postId ${data.id}`)
+    console.log(data)
     Axios({
-      method: "GET",
+      method: "PUT",
       withCredentials:true,
-      url: `${apiHeader}event/?where={"creator":"${id}"}`
+      data: {
+        userId: userId,
+        content: data.content,
+        likeCount: data.likeCount +1
+      },
+      url: `${apiHeader}post/${data.id}`
     })
     .then((res) => {
-      const len = res.data.data.length
-      setNumEvent(len)
+      // deep copy of the original post to trigger update on state
+      let updatePost = [...post]
+      for (let i = 0; i < updatePost.length; i++){
+        if (i === data.index){
+          updatePost[i].likeCount = res.data.data.likeCount
+          break
+        }
+      }
+      // change state to trigger rerender
+      setPost(updatePost)
     })
     .catch(function (error) {
       console.log(error)
@@ -87,17 +107,20 @@ export default function Profile() {
   }
 
   
-
   // profile info page main body
   const profile = (
     <div>
       <ProfileHead name={user?user['name']:'Undefined'}/>
       <div class='container-grid'>
-        <div class='col1'><NavList/></div>
+        <div class='col1'>
+          <NavList/>
+        </div>
       
-      <div class='col2'> <ProfileInfo class='col' numEvent={numEvent?numEvent:'0'} 
-          numPost={numPost?numPost:'0'}  numFriend={numFriend?numFriend:'0'}  
-          name={user?user['name']:'Undefined'}  content={user?user['bio']:'Undefined'} /></div> 
+        <div class='col2'> 
+          {post?post.map((dataItem) =>(
+            <PostCard data={dataItem} addLike={addLike}/>
+          )):null}
+        </div> 
       </div>
     </div>
   )

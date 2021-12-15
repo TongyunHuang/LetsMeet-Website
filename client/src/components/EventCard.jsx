@@ -9,8 +9,13 @@ import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
+/**
+ * Largely copy from the PostCard component
+ * @param {Dict} props 
+ * @returns 
+ */
 export default function PostCard(props) {
-  const { name, likeCount, date, content } = props.data;
+  const { name, date, content,status, eventName } = props.data;
 
   return (
     <Card
@@ -34,14 +39,11 @@ export default function PostCard(props) {
             {name.substring(0, 1)}
           </Avatar>
         }
-        action={
-          <IconButton aria-label="add to favorites" sx={{ color: "#E14E68" }} onClick={() => props.addLike(props.data)}>
-            <FavoriteIcon />
-            <span style={{ fontSize: "14px" }}>{likeCount}</span>
-          </IconButton>
-        }
-        title={name}
-        subheader={date}
+        
+        title={eventName}
+        //subheader={eventName}
+        action={date.substring(0,10)}
+        subheader={status}
       />
       <CardContent>
         <Typography variant="body2">{content}</Typography>

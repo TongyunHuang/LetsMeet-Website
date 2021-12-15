@@ -7,6 +7,7 @@ router.get("/", (req, res) => {
   return res.status(200).send({ message: "auth api" });
 });
 
+
 router.post('/', (req, res, next)=>{
     
     passport.authenticate('local',function (err, user, info){
@@ -20,5 +21,6 @@ router.post('/', (req, res, next)=>{
         }
     })(req, res, next)
 })
+
 
 module.exports = router;

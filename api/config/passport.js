@@ -1,7 +1,9 @@
+
 "use strict";
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const bcrypt = require("bcryptjs");
+
 
 
 const User = require("../models/user_model");
@@ -19,6 +21,30 @@ const customFields = {
  * @param {Callback} done   callback function
  */
 const verifyCallback = (username, password, done) => {
+
+    console.log(`verifycallback call !!!!!!!!${username}`)
+    User.findOne({name:username} ,async function(err,user){
+        console.log(user)
+        if (err){
+            return done(err)
+        }
+        if (!user) {
+            return done(null, false);
+        }
+        // verify pw
+        
+            
+        if (password === user.password ) {
+            console.log('here')
+            return done(null, user);
+        } else {
+                console.log('here2')
+                return done(null, false);
+        }
+        
+    })
+
+}
 
   // console.log('verifycallback call !!!!!!!!')
   User.findOne({ name: username })
@@ -42,6 +68,7 @@ const verifyCallback = (username, password, done) => {
       done(err);
     });
 };
+
 
 
 const strategy = new LocalStrategy(customFields, verifyCallback);
