@@ -15,7 +15,9 @@ const event_schema = new mongoose.Schema({
     time      :{type:Date  , required:true},
     creator   :{type:String, required:true},
     lat       :{type:Number, required:true},
-    lng       :{type:Number, required:true}
+    lng       :{type:Number, required:true},
+    description : {type:String},
+    creatorName: {type: String}
 },{ versionKey:false })
 
 // Export the Mongoose Model
