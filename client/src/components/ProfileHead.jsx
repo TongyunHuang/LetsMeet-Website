@@ -1,8 +1,8 @@
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import React from "react";
 
-export default function ProfileHead() {
-  const name = "Hao Ren";
+export default function ProfileHead(props) {
+  const name = props.name;
   return (
     <div
       style={{
@@ -83,7 +83,7 @@ export default function ProfileHead() {
         </Button>
       </Box>
       <Avatar
-        src="avatar-placeholder.png"
+        src="../avatar-placeholder.png"
         sx={{
           width: 150,
           height: 150,

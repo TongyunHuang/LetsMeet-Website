@@ -10,7 +10,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import ArticleIcon from "@mui/icons-material/Article";
 
+import { Link } from 'react-router-dom'
+
 export default function NavList() {
+
   const borderStyle = {
     borderTopStyle: "solid",
     borderLeftStyle: "solid",
@@ -18,6 +21,7 @@ export default function NavList() {
     borderWidth: "1px",
     borderColor: "#D8D8D8",
   };
+
   return (
     <nav aria-label="main mailbox folders">
       <List
@@ -31,20 +35,25 @@ export default function NavList() {
           padding: "0px",
         }}
       >
+        <Link to={'/profile'}>
         <ListItem
           disablePadding
           sx={{
             ...borderStyle,
           }}
         >
+          
           <ListItemButton>
             <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
             <ListItemText primary="Profile" />
           </ListItemButton>
+          
         </ListItem>
+        </Link>
 
+        <Link to={'/profileEvent'}>
         <ListItem
           disablePadding
           sx={{
@@ -58,7 +67,9 @@ export default function NavList() {
             <ListItemText primary="Events" />
           </ListItemButton>
         </ListItem>
+        </Link>
 
+        <Link to={'/profilePost'}>
         <ListItem
           disablePadding
           sx={{
@@ -73,6 +84,7 @@ export default function NavList() {
             <ListItemText primary="Posts" />
           </ListItemButton>
         </ListItem>
+        </Link>
       </List>
     </nav>
   );

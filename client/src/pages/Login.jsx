@@ -98,14 +98,21 @@ export default function Login() {
       </Button>
     </Box>
   );
-  const successfulLogin = <Navigate to="/home" />;
+  const successfulLogin = <Navigate to="/" />;
 
   return (
     <div className="log-in-page">
       <div className="login-form">
         <div className="title">Sign In</div>
         {isSubmitted ? successfulLogin : renderForm}
+<<<<<<< Updated upstream
         <Button onClick={handleClick}>Show</Button>
+=======
+        {/* {localStorage.getItem('username') ?successfulLogin: renderForm} */}
+        <Button onClick={() => {
+          setIsRegister(!isRegister)
+        }}>{isRegister ? 'Sign in' : 'Register'}</Button>
+>>>>>>> Stashed changes
       </div>
     </div>
   );

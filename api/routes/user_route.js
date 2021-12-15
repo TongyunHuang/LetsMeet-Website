@@ -29,9 +29,6 @@ router.post("/", async (req, res) => {
         name: req.body.name,
         password: hashedPassword,
         friends: req.body.friends || [],
-        avatar:
-          req.body.avatar ||
-          `'https://www.tinygraphs.com/spaceinvaders/${req.body.name}'`,
         bio: req.body.bio || `There is nothing here yet`,
       };
 
@@ -105,6 +102,7 @@ router.get("/", async (req, res) => {
  * user/:id-GET: user get by id Respond with details of specified user or 404 error
  */
 router.get("/:id", async (req, res) => {
+  console.log(`get user by id request with id ${req.params.id}`)
   User.findById(req.params.id, function (err, res_user) {
     if (err) {
       res.status(404).send({ message: "User Not Found", data: {} });
