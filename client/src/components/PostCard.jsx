@@ -8,9 +8,55 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import Axios from "axios";
+import { useState } from "react"
 
 export default function PostCard(props) {
-  const { name, likeCount, date, content } = props.data;
+  const { userId, likeCount, name, date, content, _id, color } = props.data;
+  const [likes, setlikes] = useState(likeCount);
+  const [disabled, setDisabled] = useState(false);
+
+  const handleLike = () => {
+    if (!disabled) {
+      // console.log(likes);
+      setlikes(likes + 1);
+      setDisabled(true);
+      // console.log(likes);
+      Axios({
+        method: "PUT",
+        data: {
+          name: name,
+          likeCount: likeCount + 1,
+          userId: userId,
+          content: content,
+        },
+        withCredentials: true,
+        url: "http://localhost:4000/api/post/" + _id,
+      }).then((res) => {
+        console.log(`Post ${res.data.data.name} modified!`);
+        console.log(res.data);
+      });
+    } else {
+      setlikes(likes - 1);
+      setDisabled(false);
+      // console.log(likes);
+      Axios({
+        method: "PUT",
+        data: {
+          name: name,
+          likeCount: likeCount,
+          userId: userId,
+          content: content,
+        },
+        withCredentials: true,
+        url: "http://localhost:4000/api/post/" + _id,
+      }).then((res) => {
+        console.log(`Post ${res.data.data.name} modified!`);
+        console.log(res.data);
+      });
+    }
+  };
+
 
   return (
     <Card
@@ -27,17 +73,17 @@ export default function PostCard(props) {
         avatar={
           <Avatar
             sx={{
-              bgcolor: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              bgcolor: color,
             }}
             aria-label="recipe"
           >
-            {name.substring(0, 1)}
+            {name == null ? userId[0] : name[0]}
           </Avatar>
         }
         action={
-          <IconButton aria-label="add to favorites" sx={{ color: "#E14E68" }} onClick={() => props.addLike(props.data)}>
+          <IconButton aria-label="add to favorites" sx={{ color: "#E14E68" }} onClick={handleLike}>
             <FavoriteIcon />
-            <span style={{ fontSize: "14px" }}>{likeCount}</span>
+            <span style={{ fontSize: "14px" }}>{likes}</span>
           </IconButton>
         }
         title={name}

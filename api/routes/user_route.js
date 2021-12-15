@@ -11,7 +11,6 @@ const { array_contain } = require("../lib/utils");
  */
 router.post("/", async (req, res) => {
   // check required fields were set
-  console.log(req.body);
   try {
     if (req.body.name && req.body.password) {
       // check for duplicate userusername
@@ -30,6 +29,7 @@ router.post("/", async (req, res) => {
         password: hashedPassword,
         friends: req.body.friends || [],
         bio: req.body.bio || `There is nothing here yet`,
+        color: "#" + Math.floor(Math.random() * 16777215).toString(16)
       };
 
       // Try to create new User, throw error on fail

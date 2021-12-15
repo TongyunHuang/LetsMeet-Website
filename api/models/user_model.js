@@ -11,7 +11,8 @@ const user_schema = new mongoose.Schema({
     name:         { type:String, required: true },
     password:     { type:String, required: true },
     bio:          { type:String, default:'There is nothing here yet' },
-    friends:      { type:[String], default:[] }
+    friends:      { type:[String], default:[] },
+    color: { type: String, default: "#" + Math.floor(Math.random() * 16777215).toString(16)}
 },{ versionKey:false })
 
 // Export the Mongoose Model

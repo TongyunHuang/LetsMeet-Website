@@ -2,19 +2,21 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const Post = require('../models/post_model')
+const User = require('../models/user_model')
 
 /** ############################################################################
  * post-POST: Create a new post. Respond with details of new post
 */
 router.post("/", async (req, res) =>{
     try{
-        
         if (req.body.content && req.body.userId){
-            console.log('post api post')
+            const user = await User.findById(req.body.userId)
             let newPost = {
                 content:  req.body.content,
                 userId:   req.body.userId,
-                likeCount:req.body.likeCount || 0
+                name: req.body.name,
+                likeCount:req.body.likeCount || 0,
+                color: user.color
             }
             // Try to create new Post, throw error on fail
             Post.create(newPost, async function(err, resPost){

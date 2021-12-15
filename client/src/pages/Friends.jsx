@@ -1,34 +1,55 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import { Box } from "@mui/material";
+import Axios from "axios";
+
+
 import FriendsNavList from "../components/FriendsNavList";
 import PostCard from "../components/PostCard";
 import ProfileHead from "../components/ProfileHead";
-
-const samplePostDate = {
-  name: "Hao Ren",
-  likeCount: 13,
-  date: "Sep 15",
-  content:
-    "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.",
-};
-const samplePostDate2 = {
-  name: "Friend 2",
-  likeCount: 20,
-  date: "Sep 16",
-  content:
-    "She looked at the control panel and knew there was nothing that would ever get it back into working order. She was the first and it was not clear this would also be her last.",
-};
-const samplePostDate3 = {
-  name: "Friend 3",
-  likeCount: 30,
-  date: "Sep 17",
-  content:
-    "Stranded. Yes, she was now the first person ever to land on Venus, but that was of little consequence. Her name would be read by millions in school as the first to land here, but that celebrity would never actually be seen by her.",
-};
+import ComposeForm from "../components/ComposeForm";
 
 export default function Friends() {
+  const [tweets, setTweets] = useState([]);
+  const [addMode, setAddMode] = useState(false)
+
+  const username = localStorage.getItem('username')
+  if (!username) {
+    username = 'default user'
+  }
+
+  useEffect(() => {
+    Axios.get("http://localhost:4000/api/post").then((res) => {
+      setTweets(res.data.data.reverse());
+      console.log(tweets);
+    });
+  }, []);
+
+  const handlePostTweet = (content) => {
+    const newTweet = {
+      content,
+      userId: localStorage.getItem("userId"),
+      name: localStorage.getItem("username"),
+      date: Date(Date.now()),
+      likeCount: 0,
+    };
+
+    Axios({
+      method: "POST",
+      data: newTweet,
+      withCredentials: true,
+      url: "http://localhost:4000/api/post",
+    }).then((res) => {
+      console.log(`Post ${res.data.data.content} added!`);
+      Axios.get("http://localhost:4000/api/post").then((res) => {
+        setTweets(res.data.data.reverse());
+      });
+    });
+  };
+
   return (
     <div>
-      <ProfileHead />
+      <ProfileHead name={username}/>
       <div
         style={{
           display: "flex",
@@ -36,11 +57,22 @@ export default function Friends() {
           justifyContent: "center",
         }}
       >
-        <FriendsNavList />
+        <FriendsNavList setAddMode={setAddMode} addMode={addMode} />
         <div>
-          <PostCard data={samplePostDate} />
-          <PostCard data={samplePostDate2} />
-          <PostCard data={samplePostDate3} />
+          <Box sx={{
+            display: addMode ? 'inline' : 'none'
+          }}>
+            <ComposeForm onSubmit={handlePostTweet} />
+          </Box>
+          <div>
+            {tweets.length == 0 ? (
+              <p>Loading...</p>
+            ) : (
+              tweets.map((tweet) => (
+                <PostCard key={tweet._id} data={tweet} />
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>

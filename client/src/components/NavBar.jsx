@@ -17,8 +17,6 @@ const pages = ["Home", "Posts", "Profile"];
 export default function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
 
-  const navigate = useNavigate()
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -79,6 +77,14 @@ export default function ResponsiveAppBar() {
               <MenuItem key={'Profile'} component={Link} to="/profile" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">{'Profile'}</Typography>
               </MenuItem>
+
+              <MenuItem component={Link} to="/login" onClick={() => {
+                localStorage.removeItem('username')
+                localStorage.removeItem('userId')
+                setAnchorElNav(null);
+              }}>
+                <Typography textAlign="center">Log out</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -115,6 +121,18 @@ export default function ResponsiveAppBar() {
               sx={{ my: 2, color: "white", display: "block" }}
             >
               Profile
+            </Button>
+
+            <Button
+              onClick={() => {
+                localStorage.removeItem('username')
+                localStorage.removeItem('userId')
+                setAnchorElNav(null);
+              }}
+              component={Link} to="/login"
+              sx={{ my: 2, color: "white", display: "block", marginLeft: '50px' }}
+            >
+              Log out
             </Button>
           </Box>
         </Toolbar>

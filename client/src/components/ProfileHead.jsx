@@ -73,14 +73,6 @@ export default function ProfileHead(props) {
         >
           Let's meet!
         </Typography>
-        <Button
-          variant="contained"
-          sx={{
-            marginRight: "20px",
-          }}
-        >
-          Add
-        </Button>
       </Box>
       <Avatar
         src="../avatar-placeholder.png"

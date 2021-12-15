@@ -9,6 +9,7 @@ import Friends from "./pages/Friends";
 import AddPost from "./pages/AddPost";
 import ProfilePost from "./pages/ProfilePost";
 import ProfileEvent from "./pages/ProfileEvent";
+import RequireAuth from "./RequireAuth"
 
 function App() {
   useEffect(() => {
@@ -19,17 +20,17 @@ function App() {
     <div className="App">
       <ResponsiveAppBar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
         
         <Route path="/login" element={<Login />} />
-        <Route path="/friends" element={<Friends />} />
-        <Route path="/addpost" element={<AddPost />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profilePost" element={<ProfilePost />} />
-        <Route path="/profileEvent" element={<ProfileEvent />} />
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/profilePost/:id" element={<ProfilePost />} />
-        <Route path="/profileEvent/:id" element={<ProfileEvent />} />
+        <Route path="/friends" element={<RequireAuth><Friends /></RequireAuth>} />
+        <Route path="/addpost" element={<RequireAuth><AddPost /></RequireAuth>} />
+        <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>} />
+        <Route path="/profilePost" element={<RequireAuth><ProfilePost /></RequireAuth>} />
+        <Route path="/profileEvent" element={<RequireAuth><ProfileEvent /></RequireAuth>} />
+        <Route path="/profile/:id" element={<RequireAuth><Profile /></RequireAuth>} />
+        <Route path="/profilePost/:id" element={<RequireAuth><ProfilePost /></RequireAuth>} />
+        <Route path="/profileEvent/:id" element={<RequireAuth><ProfileEvent /></RequireAuth>} />
       </Routes>
     </div>
   );

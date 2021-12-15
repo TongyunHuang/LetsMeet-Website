@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import "./Login.css";
 import TextField from "@mui/material/TextField";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Snackbar from '@mui/material/Snackbar';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
@@ -12,6 +12,9 @@ export default function Login() {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
+  const [snackNarContent, setSnackBarContent] = useState(null)
+
+  const navigate = useNavigate()
 
   const initInput = {
     username: "",
@@ -34,7 +37,12 @@ export default function Login() {
       console.log(`User ${res.data.data.name} logged in!`)
       localStorage.setItem('username', res.data.data.name)
       localStorage.setItem('userId', res.data.data._id)
-    });
+      navigate('/')
+    })
+    .catch((error) => {
+      console.log(error)
+      setSnackBarContent("Some errors happened")
+    })
   };
 
   const register = () => {
@@ -49,7 +57,11 @@ export default function Login() {
     })
     .then((res) => {
       console.log(`User ${res.data.data.name} created!`)
-    });
+    })
+    .catch((error) => {
+      console.log(error)
+      setSnackBarContent("Some errors happened (Maybe username duplicated)")
+    })
   }
 
   const errors = {
@@ -120,6 +132,14 @@ export default function Login() {
           setIsRegister(!isRegister)
         }}>{isRegister ? 'Sign in' : 'Register'}</Button>
       </div>
+      <Snackbar
+        open={snackNarContent !== null}
+        autoHideDuration={6000}
+        onClose={() => {
+          setSnackBarContent(null)
+        }}
+        message={snackNarContent}
+      />
     </div>
   );
 }
