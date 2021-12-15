@@ -9,6 +9,11 @@ const Attend = require('../models/attend_model')
  router.post("/", async (req, res) =>{
     try{
         if (req.body.userId && req.body.eventId){
+            const ifDup = await Attend.countDocuments({ userId: req.body.userId, eventId: req.body.eventId })
+            if (ifDup > 0) {
+                res.status(200).send({message: 'already attended', data: {}});
+                return
+            }
             let newAttend = {
                 userId:  req.body.userId,
                 eventId: req.body.eventId

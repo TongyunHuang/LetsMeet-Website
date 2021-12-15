@@ -8,13 +8,15 @@ const Event = require('../models/event_model')
  */
 router.post("/", async (req, res) =>{
     try{
-        if (req.body.name && req.body.time && req.body.creator && req.body.lat && req.body.lng){
+        if (req.body.name && req.body.time && req.body.creator && req.body.lat && req.body.lng && req.body.creatorName){
             let newEvent = {
                 name      :req.body.name,
                 time      :req.body.time,
                 creator   :req.body.creator,
                 lat       :req.body.lat,
-                lng       :req.body.lng
+                lng       :req.body.lng,
+                creatorName: req.body.creatorName,
+                description: req.body.description ? req.body.description : ''
             }
             // Try to create new User, throw error on fail
             Event.create(newEvent, async function(err, resEvent){
@@ -30,6 +32,7 @@ router.post("/", async (req, res) =>{
         }
 
     }catch(e){
+        console.log(e)
         res.status(500).send({message:`Create new event fail`, data:{}})
     }
 }) // end of event-Event
