@@ -26,14 +26,17 @@ Interactive Map with Google Map API
 
 ### Create event
 You can create event by clicking on the location you want in map
+
 <img src="img/createEvent.png" style="width:500px">
 
 ### Post page
 You can see you post and your friends' post in this page
+
 <img src="img/postPage.png" style="width:500px">
 
 ### Add post
 You can add your post
+
 <img src="img/addPost.png" style="width:500px">
 
 ### Personal Profile
