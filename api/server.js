@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const secrets = require("./config/secrets");
-const port = process.env.Port || 4000;
+const server = require('http').createServer();
+const port = process.env.Port||4000;
 const session = require("express-session");
 const passport = require("./config/passport");
 const cors = require("cors");
@@ -59,19 +60,19 @@ app.use(
  */
 
 // request.session
-app.use(
-  session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+// app.use(
+//   session({
+//     secret: "secret",
+//     resave: false,
+//     saveUninitialized: true,
+//   })
+// );
 
 /**
  * --------------- PASSPORT AUTHENTICATION ---------------
  */
 
-app.use(cookieParser("secret"));
+//app.use(cookieParser("secret"));
 
 
 
